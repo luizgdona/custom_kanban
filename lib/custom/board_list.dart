@@ -218,6 +218,7 @@ class _BoardListState extends ConsumerState<BoardList> {
                           color: prov.board.lists[widget.index].headerBackgroundColor,
                           padding: const EdgeInsets.only(left: 15, bottom: 10, top: 10, right: 0),
                           alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
