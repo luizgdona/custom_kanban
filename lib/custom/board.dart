@@ -51,16 +51,12 @@ class KanbanBoard extends StatefulWidget {
   final void Function(int? cardIndex, int? listIndex)? onItemLongPress;
   final void Function(int? listIndex)? onListTap;
   final void Function(int? listIndex)? onListLongPress;
-  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex,
-      int? newListIndex)? onItemReorder;
+  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex, int? newListIndex)? onItemReorder;
   final void Function(int? oldListIndex, int? newListIndex)? onListReorder;
   final void Function(String? oldName, String? newName)? onListRename;
-  final void Function(String? cardIndex, String? listIndex, String? text)?
-      onNewCardInsert;
-  final Widget Function(Widget child, Animation<double> animation)?
-      cardTransitionBuilder;
-  final Widget Function(Widget child, Animation<double> animation)?
-      listTransitionBuilder;
+  final void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert;
+  final Widget Function(Widget child, Animation<double> animation)? cardTransitionBuilder;
+  final Widget Function(Widget child, Animation<double> animation)? listTransitionBuilder;
   final double displacementX;
   final double displacementY;
   final Duration cardTransitionDuration;
@@ -143,16 +139,12 @@ class Board extends ConsumerStatefulWidget {
   final void Function(int? cardIndex, int? listIndex)? onItemLongPress;
   final void Function(int? listIndex)? onListTap;
   final void Function(int? listIndex)? onListLongPress;
-  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex,
-      int? newListIndex)? onItemReorder;
+  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex, int? newListIndex)? onItemReorder;
   final void Function(int? oldListIndex, int? newListIndex)? onListReorder;
   final void Function(String? oldName, String? newName)? onListRename;
-  final void Function(String? cardIndex, String? listIndex, String? text)?
-      onNewCardInsert;
-  final Widget Function(Widget child, Animation<double> animation)?
-      cardTransitionBuilder;
-  final Widget Function(Widget child, Animation<double> animation)?
-      listTransitionBuilder;
+  final void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert;
+  final Widget Function(Widget child, Animation<double> animation)? cardTransitionBuilder;
+  final Widget Function(Widget child, Animation<double> animation)? listTransitionBuilder;
   final double displacementX;
   final double displacementY;
   final Duration cardTransitionDuration;
@@ -198,13 +190,11 @@ class _BoardState extends ConsumerState<Board> {
       element.scrollController.addListener(() {
         if (boardListProv.scrolling) {
           if (boardListProv.scrollingDown) {
-            boardProv.valueNotifier.value = Offset(
-                boardProv.valueNotifier.value.dx,
-                boardProv.valueNotifier.value.dy + 0.00001);
+            boardProv.valueNotifier.value =
+                Offset(boardProv.valueNotifier.value.dx, boardProv.valueNotifier.value.dy + 0.00001);
           } else {
-            boardProv.valueNotifier.value = Offset(
-                boardProv.valueNotifier.value.dx,
-                boardProv.valueNotifier.value.dy + 0.00001);
+            boardProv.valueNotifier.value =
+                Offset(boardProv.valueNotifier.value.dx, boardProv.valueNotifier.value.dy + 0.00001);
           }
         }
       });
@@ -216,8 +206,7 @@ class _BoardState extends ConsumerState<Board> {
         if (boardProv.scrollingLeft && draggableProv.isListDragged) {
           for (var element in boardProv.board.lists) {
             if (element.context == null) break;
-            var of = (element.context!.findRenderObject() as RenderBox)
-                .localToGlobal(Offset.zero);
+            var of = (element.context!.findRenderObject() as RenderBox).localToGlobal(Offset.zero);
             element.x = of.dx - boardProv.board.displacementX! - 10;
             element.width = element.context!.size!.width - 30;
             element.y = of.dy - widget.displacementY + 24;
@@ -227,8 +216,7 @@ class _BoardState extends ConsumerState<Board> {
         } else if (boardProv.scrollingRight && draggableProv.isListDragged) {
           for (var element in boardProv.board.lists) {
             if (element.context == null) break;
-            var of = (element.context!.findRenderObject() as RenderBox)
-                .localToGlobal(Offset.zero);
+            var of = (element.context!.findRenderObject() as RenderBox).localToGlobal(Offset.zero);
             element.x = of.dx - boardProv.board.displacementX! - 10;
             element.width = element.context!.size!.width - 30;
             element.y = of.dy - widget.displacementY + 24;
@@ -251,11 +239,8 @@ class _BoardState extends ConsumerState<Board> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       boardProv.board.setstate = () => setState(() {});
       var box = context.findRenderObject() as RenderBox;
-      boardProv.board.displacementX =
-          box.localToGlobal(Offset.zero).dx + BOARD_PADDING; //- margin
-      boardProv.board.displacementY = box.localToGlobal(Offset.zero).dy -
-          statusBarHeight +
-          BOARD_PADDING; // statusbar
+      boardProv.board.displacementX = box.localToGlobal(Offset.zero).dx + BOARD_PADDING; //- margin
+      boardProv.board.displacementY = box.localToGlobal(Offset.zero).dy - statusBarHeight + BOARD_PADDING; // statusbar
     });
     return Listener(
       onPointerUp: (event) {
@@ -286,8 +271,7 @@ class _BoardState extends ConsumerState<Board> {
         }
         boardProv.delta = event.delta;
         boardProv.valueNotifier.value = Offset(
-            event.delta.dx + boardProv.valueNotifier.value.dx,
-            event.delta.dy + boardProv.valueNotifier.value.dy);
+            event.delta.dx + boardProv.valueNotifier.value.dx, event.delta.dy + boardProv.valueNotifier.value.dy);
       },
       child: GestureDetector(
         onTap: () {
@@ -298,10 +282,8 @@ class _BoardState extends ConsumerState<Board> {
         child: Scaffold(
           backgroundColor: Colors.white,
           body: Container(
-            padding:
-                const EdgeInsets.only(top: BOARD_PADDING, left: BOARD_PADDING),
-            decoration: widget.boardDecoration ??
-                BoxDecoration(color: widget.backgroundColor),
+            padding: const EdgeInsets.only(top: BOARD_PADDING, left: BOARD_PADDING),
+            decoration: widget.boardDecoration ?? BoxDecoration(color: widget.backgroundColor),
             child: Stack(
               fit: StackFit.passthrough,
               clipBehavior: Clip.none,
@@ -323,145 +305,92 @@ class _BoardState extends ConsumerState<Board> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                                 children: boardProv.board.lists
-                                    .map(
-                                        (e) =>
-                                            boardProv.board.lists.indexOf(e) !=
-                                                    boardProv.board.lists
-                                                            .length -
-                                                        1
-                                                ? BoardList(
-                                                    index: boardProv.board.lists
-                                                        .indexOf(e),
-                                                  )
-                                                : Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      BoardList(
-                                                        index: boardProv
-                                                            .board.lists
-                                                            .indexOf(e),
+                                    .map((e) => boardProv.board.lists.indexOf(e) != boardProv.board.lists.length - 1
+                                        ? BoardList(
+                                            index: boardProv.board.lists.indexOf(e),
+                                          )
+                                        : Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              BoardList(
+                                                index: boardProv.board.lists.indexOf(e),
+                                              ),
+                                              boardListProv.newList
+                                                  ? Container(
+                                                      margin: const EdgeInsets.only(
+                                                        top: 20,
+                                                        left: 30,
                                                       ),
-                                                      boardListProv.newList
-                                                          ? Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                top: 20,
-                                                                left: 30,
-                                                              ),
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                bottom: 20,
-                                                              ),
+                                                      padding: const EdgeInsets.only(
+                                                        bottom: 20,
+                                                      ),
+                                                      width: 300,
+                                                      color: const Color.fromARGB(
+                                                        255,
+                                                        247,
+                                                        248,
+                                                        252,
+                                                      ),
+                                                      child: Wrap(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 50,
+                                                            width: 300,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                IconButton(
+                                                                    onPressed: () {
+                                                                      setState(() {
+                                                                        boardListProv.newList = false;
+                                                                        boardProv.board.lists.add(board_list.BoardList(
+                                                                          width: 300,
+                                                                          scrollController: ScrollController(),
+                                                                          items: [],
+                                                                          title: boardProv
+                                                                              .newCardState.textController.text,
+                                                                        ));
+                                                                        boardProv.newCardState.textController.clear();
+                                                                      });
+                                                                    },
+                                                                    icon: const Icon(Icons.done))
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
                                                               width: 300,
-                                                              color: const Color
-                                                                  .fromARGB(
-                                                                255,
-                                                                247,
-                                                                248,
-                                                                252,
-                                                              ),
-                                                              child: Wrap(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    height: 50,
-                                                                    width: 300,
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        IconButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            setState(() {
-                                                                              boardListProv.newList = false;
-                                                                              boardProv.newCardState.textController.clear();
-                                                                            });
-                                                                          },
-                                                                          icon:
-                                                                              const Icon(Icons.close),
-                                                                        ),
-                                                                        IconButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              setState(() {
-                                                                                boardListProv.newList = false;
-                                                                                boardProv.board.lists.add(board_list.BoardList(
-                                                                                  width: 300,
-                                                                                  scrollController: ScrollController(),
-                                                                                  items: [],
-                                                                                  title: boardProv.newCardState.textController.text,
-                                                                                ));
-                                                                                boardProv.newCardState.textController.clear();
-                                                                              });
-                                                                            },
-                                                                            icon:
-                                                                                const Icon(Icons.done))
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                      width:
-                                                                          300,
-                                                                      color: Colors
-                                                                          .white,
-                                                                      margin: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              20,
-                                                                          right:
-                                                                              10,
-                                                                          left:
-                                                                              10),
-                                                                      child:
-                                                                          const TField()),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          : GestureDetector(
-                                                              onTap: () {
-                                                                if (boardProv
-                                                                        .newCardState
-                                                                        .isFocused ==
-                                                                    true) {
-                                                                  ref
-                                                                      .read(ProviderList
-                                                                          .cardProvider)
-                                                                      .saveNewCard();
-                                                                }
-                                                                boardListProv
-                                                                        .newList =
-                                                                    true;
-                                                                setState(() {});
-                                                              },
-                                                              child: Container(
-                                                                  height: 50,
-                                                                  width: 300,
-                                                                  margin: const EdgeInsets
-                                                                          .only(
-                                                                      top: 10,
-                                                                      left: 20),
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors
-                                                                          .transparent,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6)),
-                                                                  child:
-                                                                      DottedBorder(
-                                                                    child: Center(
-                                                                        child: Text(
-                                                                            "Add List",
-                                                                            style:
-                                                                                widget.textStyle)),
-                                                                  )),
-                                                            )
-                                                    ],
-                                                  ))
+                                                              color: Colors.white,
+                                                              margin:
+                                                                  const EdgeInsets.only(top: 20, right: 10, left: 10),
+                                                              child: const TField()),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Visibility(
+                                                      visible: false,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          if (boardProv.newCardState.isFocused == true) {
+                                                            ref.read(ProviderList.cardProvider).saveNewCard();
+                                                          }
+                                                          boardListProv.newList = true;
+                                                          setState(() {});
+                                                        },
+                                                        child: Container(
+                                                            height: 50,
+                                                            width: 300,
+                                                            margin: const EdgeInsets.only(top: 10, left: 20),
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.transparent,
+                                                                borderRadius: BorderRadius.circular(6)),
+                                                            child: DottedBorder(
+                                                              child: Center(
+                                                                  child: Text("Add List", style: widget.textStyle)),
+                                                            )),
+                                                      ),
+                                                    )
+                                            ],
+                                          ))
                                     .toList()),
                           ),
                         ),

@@ -24,10 +24,7 @@ class _BoardListState extends ConsumerState<BoardList> {
     var listProv = ref.read(ProviderList.boardListProvider);
     final draggableNotfier = ref.read(ProviderList.draggableNotifier);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      listProv.calculateSizePosition(
-          listIndex: widget.index,
-          context: context,
-          setstate: () => setState(() {}));
+      listProv.calculateSizePosition(listIndex: widget.index, context: context, setstate: () => setState(() {}));
     });
     return ValueListenableBuilder(
         valueListenable: prov.valueNotifier,
@@ -44,18 +41,13 @@ class _BoardListState extends ConsumerState<BoardList> {
             listBox = listBox as RenderBox;
             location = box.localToGlobal(Offset.zero);
 
-            list.x = listBox.localToGlobal(Offset.zero).dx -
-                prov.board.displacementX!;
-            list.y = listBox.localToGlobal(Offset.zero).dy -
-                prov.board.displacementY!;
+            list.x = listBox.localToGlobal(Offset.zero).dx - prov.board.displacementX!;
+            list.y = listBox.localToGlobal(Offset.zero).dy - prov.board.displacementY!;
 
-            if (((prov.draggedItemState!.width * 0.6) +
-                        prov.valueNotifier.value.dx >
+            if (((prov.draggedItemState!.width * 0.6) + prov.valueNotifier.value.dx >
                     prov.board.lists[widget.index].x!) &&
-                ((prov.board.lists[widget.index].x! +
-                        prov.board.lists[widget.index].width! >
-                    prov.draggedItemState!.width +
-                        prov.valueNotifier.value.dx)) &&
+                ((prov.board.lists[widget.index].x! + prov.board.lists[widget.index].width! >
+                    prov.draggedItemState!.width + prov.valueNotifier.value.dx)) &&
                 (prov.board.dragItemOfListIndex! != widget.index)) {
               // print("RIGHT ->");
               // print(prov.board.lists[widget.index].items.length);
@@ -81,20 +73,15 @@ class _BoardListState extends ConsumerState<BoardList> {
                     addedBySystem: true));
 
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].child =
-                      prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].prevChild;
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                      .items[prov.board.dragItemIndex!].setState!();
-                  if (prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].addedBySystem ==
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].child =
+                      prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].prevChild;
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].setState!();
+                  if (prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!]
+                          .addedBySystem ==
                       true) {
-                    prov.board.lists[prov.board.dragItemOfListIndex!].items
-                        .removeAt(0);
+                    prov.board.lists[prov.board.dragItemOfListIndex!].items.removeAt(0);
                     log("ITEM REMOVED");
-                    prov.board.lists[prov.board.dragItemOfListIndex!]
-                        .setState!();
+                    prov.board.lists[prov.board.dragItemOfListIndex!].setState!();
                   }
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
@@ -107,42 +94,28 @@ class _BoardListState extends ConsumerState<BoardList> {
                   prov.draggedItemState!.listIndex == widget.index) {
                 // print("RIGHT LENGTH == 1");
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  if (prov.board.lists[draggedItemListIndex!]
-                          .items[draggedItemIndex!].addedBySystem ==
-                      true) {
-                    prov.board.lists[draggedItemListIndex].items
-                        .removeAt(draggedItemIndex);
+                  if (prov.board.lists[draggedItemListIndex!].items[draggedItemIndex!].addedBySystem == true) {
+                    prov.board.lists[draggedItemListIndex].items.removeAt(draggedItemIndex);
                     prov.board.lists[draggedItemListIndex].setState!();
                   } else {
-                    prov
-                        .board
-                        .lists[prov.board.dragItemOfListIndex!]
-                        .items[prov.board.dragItemIndex!]
-                        .placeHolderAt = PlaceHolderAt.none;
+                    prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].placeHolderAt =
+                        PlaceHolderAt.none;
 
-                    prov.board.lists[prov.board.dragItemOfListIndex!]
-                            .items[prov.board.dragItemIndex!].child =
-                        prov.board.lists[prov.board.dragItemOfListIndex!]
-                            .items[prov.board.dragItemIndex!].prevChild;
+                    prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].child =
+                        prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].prevChild;
 
-                    prov.board.lists[prov.board.dragItemOfListIndex!]
-                        .items[prov.board.dragItemIndex!].setState!();
+                    prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].setState!();
                   }
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
                   // log("UPDATED | ITEM= ${widget.itemIndex} | LIST= ${widget.listIndex}");
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                      .items[prov.board.dragItemIndex!].setState!();
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].setState!();
                 });
               }
-            } else if (((prov.draggedItemState!.width * 0.6) +
-                        prov.valueNotifier.value.dx <
-                    prov.board.lists[widget.index].x! +
-                        prov.board.lists[widget.index].width!) &&
-                ((prov.board.lists[widget.index].x! +
-                        prov.board.lists[widget.index].width! <
-                    prov.draggedItemState!.width +
-                        prov.valueNotifier.value.dx)) &&
+            } else if (((prov.draggedItemState!.width * 0.6) + prov.valueNotifier.value.dx <
+                    prov.board.lists[widget.index].x! + prov.board.lists[widget.index].width!) &&
+                ((prov.board.lists[widget.index].x! + prov.board.lists[widget.index].width! <
+                    prov.draggedItemState!.width + prov.valueNotifier.value.dx)) &&
                 (prov.board.dragItemOfListIndex! != widget.index)) {
               if (prov.board.lists[widget.index].items.isEmpty) {
                 prov.move = "REPLACE";
@@ -166,21 +139,16 @@ class _BoardListState extends ConsumerState<BoardList> {
                     addedBySystem: true));
 
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].child =
-                      prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].prevChild;
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                      .items[prov.board.dragItemIndex!].setState!();
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].child =
+                      prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].prevChild;
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].setState!();
 
-                  if (prov.board.lists[prov.board.dragItemOfListIndex!]
-                          .items[prov.board.dragItemIndex!].addedBySystem ==
+                  if (prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!]
+                          .addedBySystem ==
                       true) {
-                    prov.board.lists[prov.board.dragItemOfListIndex!].items
-                        .removeAt(0);
+                    prov.board.lists[prov.board.dragItemOfListIndex!].items.removeAt(0);
                     log("ITEM REMOVED");
-                    prov.board.lists[prov.board.dragItemOfListIndex!]
-                        .setState!();
+                    prov.board.lists[prov.board.dragItemOfListIndex!].setState!();
                   }
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
@@ -195,34 +163,23 @@ class _BoardListState extends ConsumerState<BoardList> {
                 // print("LEFT LENGTH == 1");
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   // CASE : IF PREVIOUSLY PLACEHOLDER IS ADDED IN EMPTY LIST THEN EXPLICITLY REMOVE THAT PLACEHOLDER, AND MAKE THAT LIST EMPTY AGAIN //
-                  if (prov.board.lists[draggedItemListIndex!]
-                          .items[draggedItemIndex!].addedBySystem ==
-                      true) {
-                    prov.board.lists[draggedItemListIndex].items
-                        .removeAt(draggedItemIndex);
+                  if (prov.board.lists[draggedItemListIndex!].items[draggedItemIndex!].addedBySystem == true) {
+                    prov.board.lists[draggedItemListIndex].items.removeAt(draggedItemIndex);
                     prov.board.lists[draggedItemListIndex].setState!();
                   } else {
-                    prov
-                        .board
-                        .lists[draggedItemListIndex]
-                        .items[draggedItemIndex]
-                        .placeHolderAt = PlaceHolderAt.none;
+                    prov.board.lists[draggedItemListIndex].items[draggedItemIndex].placeHolderAt = PlaceHolderAt.none;
 
-                    prov.board.lists[draggedItemListIndex]
-                            .items[draggedItemIndex].child =
-                        prov.board.lists[draggedItemListIndex]
-                            .items[draggedItemIndex].prevChild;
+                    prov.board.lists[draggedItemListIndex].items[draggedItemIndex].child =
+                        prov.board.lists[draggedItemListIndex].items[draggedItemIndex].prevChild;
 
-                    prov.board.lists[draggedItemListIndex]
-                        .items[draggedItemIndex].setState!();
+                    prov.board.lists[draggedItemListIndex].items[draggedItemIndex].setState!();
                   }
 
                   // Placeholder is updated at current position //
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
                   // log("UPDATED | ITEM= ${widget.itemIndex} | LIST= ${widget.listIndex}");
-                  prov.board.lists[prov.board.dragItemOfListIndex!]
-                      .items[prov.board.dragItemIndex!].setState!();
+                  prov.board.lists[prov.board.dragItemOfListIndex!].items[prov.board.dragItemIndex!].setState!();
                 });
               }
             }
@@ -248,23 +205,18 @@ class _BoardListState extends ConsumerState<BoardList> {
                       child: child,
                     );
                   },
-                  child: Opacity(
-                      opacity: 0.4, child: prov.draggedItemState!.child))
+                  child: Opacity(opacity: 0.4, child: prov.draggedItemState!.child))
               : Column(children: [
                   GestureDetector(
                     onLongPress: () {
                       listProv.onListLongpress(
-                          listIndex: widget.index,
-                          context: context,
-                          setstate: () => setState(() {}));
+                          listIndex: widget.index, context: context, setstate: () => setState(() {}));
                     },
                     child: prov.board.lists[widget.index].header ??
                         Container(
                           width: prov.board.lists[widget.index].width,
-                          color: prov
-                              .board.lists[widget.index].headerBackgroundColor,
-                          padding: const EdgeInsets.only(
-                              left: 15, bottom: 10, top: 10, right: 0),
+                          color: prov.board.lists[widget.index].headerBackgroundColor,
+                          padding: const EdgeInsets.only(left: 15, bottom: 10, top: 10, right: 0),
                           alignment: Alignment.centerLeft,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -272,51 +224,44 @@ class _BoardListState extends ConsumerState<BoardList> {
                               Text(
                                 prov.board.lists[widget.index].title,
                                 style: prov.board.textStyle ??
-                                    const TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500),
+                                    const TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w500),
                               ),
-                              SizedBox(
-                                  // padding: const EdgeInsets.all(5),
-                                  child: PopupMenuButton(
-                                      constraints: BoxConstraints(
-                                        minWidth: prov.board.lists[widget.index]
-                                                .width! *
-                                            0.7,
-                                        maxWidth: prov.board.lists[widget.index]
-                                                .width! *
-                                            0.7,
-                                      ),
-                                      itemBuilder: (ctx) {
-                                        return [
-                                          PopupMenuItem(
-                                            value: 1,
-                                            child: Text(
-                                              "Add card",
-                                              style: prov.board.textStyle,
+                              Visibility(
+                                visible: false,
+                                child: SizedBox(
+                                    // padding: const EdgeInsets.all(5),
+                                    child: PopupMenuButton(
+                                        constraints: BoxConstraints(
+                                          minWidth: prov.board.lists[widget.index].width! * 0.7,
+                                          maxWidth: prov.board.lists[widget.index].width! * 0.7,
+                                        ),
+                                        itemBuilder: (ctx) {
+                                          return [
+                                            PopupMenuItem(
+                                              value: 1,
+                                              child: Text(
+                                                "Add card",
+                                                style: prov.board.textStyle,
+                                              ),
                                             ),
-                                          ),
-                                          PopupMenuItem(
-                                            value: 2,
-                                            child: Text(
-                                              "Delete List",
-                                              style: prov.board.textStyle,
+                                            PopupMenuItem(
+                                              value: 2,
+                                              child: Text(
+                                                "Delete List",
+                                                style: prov.board.textStyle,
+                                              ),
                                             ),
-                                          ),
-                                        ];
-                                      },
-                                      onSelected: (value) async {
-                                        if (value == 1) {
-                                          listProv.addNewCard(
-                                              position: "TOP",
-                                              listIndex: widget.index);
-                                        } else if (value == 2) {
-                                          prov.board.lists
-                                              .removeAt(widget.index);
-                                          prov.board.setstate!();
-                                        }
-                                      })),
+                                          ];
+                                        },
+                                        onSelected: (value) async {
+                                          if (value == 1) {
+                                            listProv.addNewCard(position: "TOP", listIndex: widget.index);
+                                          } else if (value == 2) {
+                                            prov.board.lists.removeAt(widget.index);
+                                            prov.board.setstate!();
+                                          }
+                                        })),
+                              ),
                             ],
                           ),
                         ),
@@ -324,8 +269,7 @@ class _BoardListState extends ConsumerState<BoardList> {
                   Flexible(
                     child: ListView.builder(
                       // physics: const ClampingScrollPhysics()
-                      controller:
-                          prov.board.lists[widget.index].scrollController,
+                      controller: prov.board.lists[widget.index].scrollController,
                       itemCount: prov.board.lists[widget.index].items.length,
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
@@ -338,40 +282,38 @@ class _BoardListState extends ConsumerState<BoardList> {
                       // itemCount: prov.items.length,
                     ),
                   ),
-                  prov.board.lists[widget.index].footer ??
-                      Container(
-                        padding: const EdgeInsets.only(left: 15),
-                        height: 45,
-                        width: prov.board.lists[widget.index].width,
-                        color: prov
-                            .board.lists[widget.index].footerBackgroundColor,
-                        child: GestureDetector(
-                          onTap: () async {
-                            listProv.addNewCard(
-                                position: "LAST", listIndex: widget.index);
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.add,
-                                color: Colors.black,
-                                size: 22,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'NEW',
-                                style: prov.board.textStyle ??
-                                    const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                              ),
-                            ],
+                  Visibility(
+                    visible: false,
+                    child: prov.board.lists[widget.index].footer ??
+                        Container(
+                          padding: const EdgeInsets.only(left: 15),
+                          height: 45,
+                          width: prov.board.lists[widget.index].width,
+                          color: prov.board.lists[widget.index].footerBackgroundColor,
+                          child: GestureDetector(
+                            onTap: () async {
+                              listProv.addNewCard(position: "LAST", listIndex: widget.index);
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.add,
+                                  color: Colors.black,
+                                  size: 22,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'NEW',
+                                  style: prov.board.textStyle ??
+                                      const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      )
+                  )
                 ]),
         ));
   }
