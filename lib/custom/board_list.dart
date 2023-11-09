@@ -226,42 +226,6 @@ class _BoardListState extends ConsumerState<BoardList> {
                                 style: prov.board.textStyle ??
                                     const TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w500),
                               ),
-                              Visibility(
-                                visible: false,
-                                child: SizedBox(
-                                    // padding: const EdgeInsets.all(5),
-                                    child: PopupMenuButton(
-                                        constraints: BoxConstraints(
-                                          minWidth: prov.board.lists[widget.index].width! * 0.7,
-                                          maxWidth: prov.board.lists[widget.index].width! * 0.7,
-                                        ),
-                                        itemBuilder: (ctx) {
-                                          return [
-                                            PopupMenuItem(
-                                              value: 1,
-                                              child: Text(
-                                                "Add card",
-                                                style: prov.board.textStyle,
-                                              ),
-                                            ),
-                                            PopupMenuItem(
-                                              value: 2,
-                                              child: Text(
-                                                "Delete List",
-                                                style: prov.board.textStyle,
-                                              ),
-                                            ),
-                                          ];
-                                        },
-                                        onSelected: (value) async {
-                                          if (value == 1) {
-                                            listProv.addNewCard(position: "TOP", listIndex: widget.index);
-                                          } else if (value == 2) {
-                                            prov.board.lists.removeAt(widget.index);
-                                            prov.board.setstate!();
-                                          }
-                                        })),
-                              ),
                             ],
                           ),
                         ),
