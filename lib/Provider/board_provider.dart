@@ -37,19 +37,14 @@ class BoardProvider extends ChangeNotifier {
       Function(int? listIndex)? onListLongPress,
       double? displacementX,
       double? displacementY,
-      void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex,
-              int? newListIndex)?
-          onItemReorder,
+      void Function(int oldCardIndex, int newCardIndex, int oldListIndex, int newListIndex)? onItemReorder,
       void Function(int? oldListIndex, int? newListIndex)? onListReorder,
       void Function(String? oldName, String? newName)? onListRename,
-      void Function(String? cardIndex, String? listIndex, String? text)?
-          onNewCardInsert,
+      void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert,
       Decoration? boardDecoration,
       Decoration? listDecoration,
-      Widget Function(Widget child, Animation<double> animation)?
-          listTransitionBuilder,
-      Widget Function(Widget child, Animation<double> animation)?
-          cardTransitionBuilder,
+      Widget Function(Widget child, Animation<double> animation)? listTransitionBuilder,
+      Widget Function(Widget child, Animation<double> animation)? cardTransitionBuilder,
       required Duration cardTransitionDuration,
       required Duration listTransitionDuration,
       Color? cardPlaceHolderColor,
@@ -72,10 +67,8 @@ class BoardProvider extends ChangeNotifier {
         boardScrollConfig: boardScrollConfig,
         listScrollConfig: listScrollConfig,
         transitionHandler: TransitionHandler(
-            cardTransitionBuilder:
-                cardTransitionBuilder ?? (child, animation) => child,
-            listTransitionBuilder:
-                listTransitionBuilder ?? (child, animation) => child,
+            cardTransitionBuilder: cardTransitionBuilder ?? (child, animation) => child,
+            listTransitionBuilder: listTransitionBuilder ?? (child, animation) => child,
             cardTransitionDuration: cardTransitionDuration,
             listTransitionDuration: listTransitionDuration),
         controller: ScrollController(),
@@ -88,11 +81,7 @@ class BoardProvider extends ChangeNotifier {
     for (int i = 0; i < data.length; i++) {
       List<ListItem> listItems = [];
       for (int j = 0; j < data[i].items.length; j++) {
-        listItems.add(ListItem(
-            child: data[i].items[j],
-            listIndex: i,
-            index: j,
-            prevChild: data[i].items[j]));
+        listItems.add(ListItem(child: data[i].items[j], listIndex: i, index: j, prevChild: data[i].items[j]));
       }
       board.lists.add(BoardList(
           header: data[i].header,
@@ -124,8 +113,7 @@ class BoardProvider extends ChangeNotifier {
       return;
     }
     if (board.controller.offset < board.controller.position.maxScrollExtent &&
-        valueNotifier.value.dx + (draggedItemState!.width / 2) >
-            board.controller.position.viewportDimension - 100) {
+        valueNotifier.value.dx + (draggedItemState!.width / 2) > board.controller.position.viewportDimension - 100) {
       scrolling = true;
       scrollingRight = true;
       if (board.boardScrollConfig == null) {
@@ -133,10 +121,8 @@ class BoardProvider extends ChangeNotifier {
         await board.controller.animateTo(board.controller.offset + 100,
             duration: const Duration(milliseconds: 100), curve: Curves.linear);
       } else {
-        await board.controller.animateTo(
-            board.boardScrollConfig!.offset + board.controller.offset,
-            duration: board.boardScrollConfig!.duration,
-            curve: board.boardScrollConfig!.curve);
+        await board.controller.animateTo(board.boardScrollConfig!.offset + board.controller.offset,
+            duration: board.boardScrollConfig!.duration, curve: board.boardScrollConfig!.curve);
       }
       scrolling = false;
       scrollingRight = false;
@@ -147,14 +133,10 @@ class BoardProvider extends ChangeNotifier {
 
       if (board.boardScrollConfig == null) {
         await board.controller.animateTo(board.controller.offset - 100,
-            duration:
-                Duration(milliseconds: valueNotifier.value.dx < 20 ? 50 : 100),
-            curve: Curves.linear);
+            duration: Duration(milliseconds: valueNotifier.value.dx < 20 ? 50 : 100), curve: Curves.linear);
       } else {
-        await board.controller.animateTo(
-            board.controller.offset - board.boardScrollConfig!.offset,
-            duration: board.boardScrollConfig!.duration,
-            curve: board.boardScrollConfig!.curve);
+        await board.controller.animateTo(board.controller.offset - board.boardScrollConfig!.offset,
+            duration: board.boardScrollConfig!.duration, curve: board.boardScrollConfig!.curve);
       }
 
       scrolling = false;

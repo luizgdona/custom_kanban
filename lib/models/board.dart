@@ -22,12 +22,10 @@ class BoardState {
   Function(int? itemIndex, int? listIndex)? onItemLongPress;
   Function(int? listIndex)? onListTap;
   Function(int? listIndex)? onListLongPress;
-  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex,
-      int? newListIndex)? onItemReorder;
+  final void Function(int oldCardIndex, int newCardIndex, int oldListIndex, int newListIndex)? onItemReorder;
   final void Function(int? oldListIndex, int? newListIndex)? onListReorder;
   final void Function(String? oldName, String? newName)? onListRename;
-  final void Function(String? cardIndex, String? listIndex, String? text)?
-      onNewCardInsert;
+  final void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert;
   Color? backgroundColor;
   Color? cardPlaceholderColor;
   Color? listPlaceholderColor;
@@ -65,19 +63,13 @@ class BoardState {
     this.dragItemOfListIndex,
     required this.transitionHandler,
   }) {
-    textStyle = textStyle ??
-        TextStyle(
-            color: Colors.grey.shade800,
-            fontSize: 19,
-            fontWeight: FontWeight.w400);
+    textStyle = textStyle ?? TextStyle(color: Colors.grey.shade800, fontSize: 19, fontWeight: FontWeight.w400);
   }
 }
 
 class TransitionHandler {
-  final Widget Function(Widget child, Animation<double> animation)
-      cardTransitionBuilder;
-  final Widget Function(Widget child, Animation<double> animation)
-      listTransitionBuilder;
+  final Widget Function(Widget child, Animation<double> animation) cardTransitionBuilder;
+  final Widget Function(Widget child, Animation<double> animation) listTransitionBuilder;
   final Duration cardTransitionDuration;
   final Duration listTransitionDuration;
 

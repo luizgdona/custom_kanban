@@ -29,7 +29,7 @@ class KanbanBoard extends StatefulWidget {
     this.onItemTap,
     this.displacementX = 0.0,
     this.displacementY = 0.0,
-    this.onItemReorder,
+    required this.onItemReorder,
     this.onListReorder,
     this.onListRename,
     this.onNewCardInsert,
@@ -51,7 +51,7 @@ class KanbanBoard extends StatefulWidget {
   final void Function(int? cardIndex, int? listIndex)? onItemLongPress;
   final void Function(int? listIndex)? onListTap;
   final void Function(int? listIndex)? onListLongPress;
-  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex, int? newListIndex)? onItemReorder;
+  final void Function(int oldCardIndex, int newCardIndex, int oldListIndex, int newListIndex) onItemReorder;
   final void Function(int? oldListIndex, int? newListIndex)? onListReorder;
   final void Function(String? oldName, String? newName)? onListRename;
   final void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert;
@@ -117,7 +117,7 @@ class Board extends ConsumerStatefulWidget {
     this.onItemTap,
     this.displacementX = 0.0,
     this.displacementY = 0.0,
-    this.onItemReorder,
+    required this.onItemReorder,
     this.onListReorder,
     this.onListRename,
     this.onNewCardInsert,
@@ -139,7 +139,7 @@ class Board extends ConsumerStatefulWidget {
   final void Function(int? cardIndex, int? listIndex)? onItemLongPress;
   final void Function(int? listIndex)? onListTap;
   final void Function(int? listIndex)? onListLongPress;
-  final void Function(int? oldCardIndex, int? newCardIndex, int? oldListIndex, int? newListIndex)? onItemReorder;
+  final void Function(int oldCardIndex, int newCardIndex, int oldListIndex, int newListIndex) onItemReorder;
   final void Function(int? oldListIndex, int? newListIndex)? onListReorder;
   final void Function(String? oldName, String? newName)? onListRename;
   final void Function(String? cardIndex, String? listIndex, String? text)? onNewCardInsert;
